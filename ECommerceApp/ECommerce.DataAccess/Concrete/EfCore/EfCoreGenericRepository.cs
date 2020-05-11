@@ -30,7 +30,7 @@ namespace ECommerce.DataAccess.Concrete.EfCore
             }
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {

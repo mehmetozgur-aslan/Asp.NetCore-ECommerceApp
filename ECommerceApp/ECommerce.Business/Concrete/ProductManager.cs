@@ -37,6 +37,11 @@ namespace ECommerce.Business.Concrete
             return _productDal.GetById(id);
         }
 
+        public List<Product> GetPopularProducts()
+        {
+            return _productDal.GetPopularProducts().ToList();
+        }
+
         public void Update(Product entity)
         {
             _productDal.Update(entity);
