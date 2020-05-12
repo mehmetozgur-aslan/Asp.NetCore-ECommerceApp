@@ -6,6 +6,7 @@ using ECommerce.Business.Abstract;
 using ECommerce.Business.Concrete;
 using ECommerce.DataAccess.Abstract;
 using ECommerce.DataAccess.Concrete.EfCore;
+using ECommerce.Web.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,8 +38,9 @@ namespace ECommerce.Web
                 app.UseDeveloperExceptionPage();
                 SeedDatabase.Seed();
             }
-
-            app.UseMvcWithDefaultRoute();
+            app.UseStaticFiles(); //wwwroot dýþarý açýlýr.
+            app.CustomStaticFiles();
+            app.UseMvcWithDefaultRoute(); 
         }
     }
 }
