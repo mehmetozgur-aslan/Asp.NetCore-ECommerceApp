@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Business.Abstract;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace ECommerce.Web
@@ -39,7 +41,14 @@ namespace ECommerce.Web
                 SeedDatabase.Seed();
             }
             app.UseStaticFiles(); //wwwroot dýþarý açýlýr.
-            app.CustomStaticFiles();
+                                  //app.CustomStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
+                RequestPath = "/modules"
+            });
+
             app.UseMvcWithDefaultRoute(); 
         }
     }
