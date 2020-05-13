@@ -9,7 +9,7 @@ namespace ECommerce.DataAccess.Abstract
 {
     public interface IProductDal : IRepository<Product>
     {
-        List<Product> GetProductsByCategory(string category);
+        List<Product> GetProductsByCategory(string category,int page,int pageSize);
         Product GetProductDetails(int id);
     }
 }
