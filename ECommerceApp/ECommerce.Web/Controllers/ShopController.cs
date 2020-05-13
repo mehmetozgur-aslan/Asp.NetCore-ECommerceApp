@@ -47,7 +47,14 @@ namespace ECommerce.Web.Controllers
 
             return View(new ProductListModel()
             {
-                Products = _productService.GetProductsByCategory(category, page,pageSize)
+                PageInfo = new PageInfo
+                {
+                    TotalItems=_productService.GetCountByCategory(category),
+                    CurrentCategory = category,
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize
+                },
+                Products = _productService.GetProductsByCategory(category, page, pageSize)
             });
         }
     }

@@ -19,12 +19,11 @@ namespace ECommerce.Web.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-
-
             return View(new CategoryListViewModel()
             {
-                Categories = _categoryService.GetAll()
-            });
+                Categories = _categoryService.GetAll(),
+                SelectedCategory = RouteData.Values["category"]?.ToString()
+            }) ;
         }
     }
 }
