@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using ECommerce.Business.Abstract;
 using ECommerce.Entities;
@@ -24,15 +25,18 @@ namespace ECommerce.Web.Controllers
                 return NotFound();
             }
 
-            Product product = _productService.GetById(id.GetValueOrDefault());
+            Product product = _productService.GetProductDetails(id.GetValueOrDefault());
 
-            if (product==null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-
-            return View(product);
+            return View(new ProductDetailsModel()
+            {
+                Product = product,
+                Categories = product.ProductCategories.Select(x => x.Category).ToList()
+            });
         }
 
         public IActionResult List()

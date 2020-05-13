@@ -10,5 +10,6 @@ namespace ECommerce.DataAccess.Abstract
     public interface IProductDal : IRepository<Product>
     {
         IEnumerable<Product> GetPopularProducts();
+        Product GetProductDetails(int id);
     }
 }
