@@ -29,7 +29,7 @@ namespace ECommerce.Business.Concrete
 
         public List<Product> GetAll()
         {
-           return _productDal.GetAll().ToList();
+            return _productDal.GetAll().ToList();
         }
 
         public Product GetById(int id)
@@ -37,14 +37,14 @@ namespace ECommerce.Business.Concrete
             return _productDal.GetById(id);
         }
 
-        public List<Product> GetPopularProducts()
-        {
-            return _productDal.GetPopularProducts().ToList();
-        }
-
         public Product GetProductDetails(int id)
         {
             return _productDal.GetProductDetails(id);
+        }
+
+        public List<Product> GetProductsByCategory(string category)
+        {
+            return _productDal.GetProductsByCategory(category);
         }
 
         public void Update(Product entity)

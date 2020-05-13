@@ -8,11 +8,13 @@ namespace ECommerce.Business.Abstract
     public interface IProductService
     {
         List<Product> GetAll();
-        List<Product> GetPopularProducts();
+        List<Product> GetProductsByCategory(string category);
         Product GetById(int id);
         void Create(Product entity);
         void Update(Product entity);
         void Delete(Product entity);
         Product GetProductDetails(int id);
+
+
     }
 }
