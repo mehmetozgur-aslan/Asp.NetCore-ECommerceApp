@@ -58,7 +58,7 @@ namespace ECommerce.Web
                );
 
                 routes.MapRoute(
-                 name: "adminProducts",
+                 name: "adminProductsEdit",
                  template: "admin/products/{id?}",
                  defaults: new { controller = "Admin", action = "Edit" }
                );
