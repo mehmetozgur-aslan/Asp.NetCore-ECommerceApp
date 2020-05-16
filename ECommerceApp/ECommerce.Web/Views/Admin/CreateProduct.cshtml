@@ -3,6 +3,12 @@
     ViewData["Title"] = "CreateProduct";
 }
 
+
+@section Scripts {
+    <script src="~/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+
 <h1>Create Product</h1>
 <hr />
 
@@ -30,7 +36,7 @@
             <div class="form-group row">
                 <label asp-for="Description" class="col-md-2 col-form-label"></label>
                 <div class="col-md-10">
-                    <textarea id="editor" asp-for="Description"  class="form-control">@Model.Description</textarea>
+                    <textarea id="editor" asp-for="Description" class="form-control">@Model.Description</textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
 
                 </div>
