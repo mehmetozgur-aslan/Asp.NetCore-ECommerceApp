@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Business.Abstract;
 using ECommerce.Entities;
 using ECommerce.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Web.Controllers
@@ -85,23 +87,40 @@ namespace ECommerce.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductModel model, int[] categoryIds)
+        public async Task<IActionResult> EditProduct(ProductModel model, int[] categoryIds,IFormFile file)
         {
-            var entity = _productService.GetById(model.Id);
-
-            if (entity == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var entity = _productService.GetById(model.Id);
+
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+
+                entity.Name = model.Name;
+                entity.Description = model.Description;
+                entity.Price = model.Price.GetValueOrDefault();
+
+                if (file != null)
+                {
+                    entity.ImageUrl = file.FileName;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+
+                _productService.Update(entity, categoryIds);
+
+                return RedirectToAction("ProductList");
             }
 
-            entity.Name = model.Name;
-            entity.Description = model.Description;
-            entity.ImageUrl = model.ImageUrl;
-            entity.Price = model.Price.GetValueOrDefault();
+            ViewBag.Categories = _categoryService.GetAll();
 
-            _productService.Update(entity, categoryIds);
-
-            return RedirectToAction("ProductList");
+            return View(model);
         }
 
 
