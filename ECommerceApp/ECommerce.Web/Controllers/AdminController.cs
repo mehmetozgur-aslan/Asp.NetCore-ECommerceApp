@@ -45,9 +45,12 @@ namespace ECommerce.Web.Controllers
                     ImageUrl = model.ImageUrl
                 };
 
-                _productService.Create(entity);
-
-                return RedirectToAction("ProductList");
+                if (_productService.Create(entity))
+                {
+                    return RedirectToAction("ProductList");
+                }
+                ViewBag.ErrorMessage = _productService.ErrorMessage;
+                return View(model);
             }
 
             return View(model);
@@ -73,7 +76,7 @@ namespace ECommerce.Web.Controllers
                 Price = entity.Price,
                 Description = entity.Description,
                 ImageUrl = entity.ImageUrl,
-                 SelectedCategories = entity.ProductCategories.Select(x => x.Category).ToList()
+                SelectedCategories = entity.ProductCategories.Select(x => x.Category).ToList()
             };
 
             ViewBag.Categories = _categoryService.GetAll();
