@@ -15,5 +15,7 @@ namespace ECommerce.Business.Abstract
         void Delete(Product entity);
         Product GetProductDetails(int id);
         int GetCountByCategory(string category);
+        Product GetByIdWithCategories(int id);
+        void Update(Product entity, int[] categoryIds);
     }
 }

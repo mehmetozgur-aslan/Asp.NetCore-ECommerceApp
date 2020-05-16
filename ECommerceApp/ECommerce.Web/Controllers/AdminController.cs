@@ -54,7 +54,7 @@ namespace ECommerce.Web.Controllers
             {
                 return NotFound();
             }
-            var entity = _productService.GetById((int)id);
+            var entity = _productService.GetByIdWithCategories((int)id);
 
             if (entity == null)
             {
@@ -67,14 +67,17 @@ namespace ECommerce.Web.Controllers
                 Name = entity.Name,
                 Price = entity.Price,
                 Description = entity.Description,
-                ImageUrl = entity.ImageUrl
+                ImageUrl = entity.ImageUrl,
+                 SelectedCategories = entity.ProductCategories.Select(x => x.Category).ToList()
             };
+
+            ViewBag.Categories = _categoryService.GetAll();
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductModel model)
+        public IActionResult EditProduct(ProductModel model, int[] categoryIds)
         {
             var entity = _productService.GetById(model.Id);
 
@@ -88,10 +91,11 @@ namespace ECommerce.Web.Controllers
             entity.ImageUrl = model.ImageUrl;
             entity.Price = model.Price;
 
-            _productService.Update(entity);
+            _productService.Update(entity, categoryIds);
 
             return RedirectToAction("ProductList");
         }
+
 
         [HttpPost]
         public IActionResult DeleteProduct(int productId)
@@ -138,8 +142,8 @@ namespace ECommerce.Web.Controllers
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Products=entity.ProductCategories.Select(x=>x.Product).ToList()
-                
+                Products = entity.ProductCategories.Select(x => x.Product).ToList()
+
             });
         }
         [HttpPost]
