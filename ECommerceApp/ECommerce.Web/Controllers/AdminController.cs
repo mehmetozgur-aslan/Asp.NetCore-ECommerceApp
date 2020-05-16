@@ -35,17 +35,22 @@ namespace ECommerce.Web.Controllers
         [HttpPost]
         public IActionResult CreateProduct(ProductModel model)
         {
-            var entity = new Product()
+            if (ModelState.IsValid)
             {
-                Name = model.Name,
-                Price = model.Price,
-                Description = model.Description,
-                ImageUrl = model.ImageUrl
-            };
+                var entity = new Product()
+                {
+                    Name = model.Name,
+                    Price = model.Price.GetValueOrDefault(),
+                    Description = model.Description,
+                    ImageUrl = model.ImageUrl
+                };
 
-            _productService.Create(entity);
+                _productService.Create(entity);
 
-            return RedirectToAction("ProductList");
+                return RedirectToAction("ProductList");
+            }
+
+            return View(model);
         }
 
         public IActionResult EditProduct(int? id)
@@ -89,7 +94,7 @@ namespace ECommerce.Web.Controllers
             entity.Name = model.Name;
             entity.Description = model.Description;
             entity.ImageUrl = model.ImageUrl;
-            entity.Price = model.Price;
+            entity.Price = model.Price.GetValueOrDefault();
 
             _productService.Update(entity, categoryIds);
 
