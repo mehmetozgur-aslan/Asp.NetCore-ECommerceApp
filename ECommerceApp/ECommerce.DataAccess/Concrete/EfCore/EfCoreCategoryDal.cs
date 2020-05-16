@@ -28,7 +28,7 @@ namespace ECommerce.DataAccess.Concrete.EfCore
                 return context.Categories
                     .Where(i => i.Id == id)
                     .Include(i => i.ProductCategories)
-                    .ThenInclude(i => i.Category).FirstOrDefault();
+                    .ThenInclude(i => i.Product).FirstOrDefault();
             }
         }
     }
