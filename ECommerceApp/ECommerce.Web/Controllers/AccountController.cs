@@ -46,9 +46,17 @@ namespace ECommerce.Web.Controllers
             if (result.Succeeded)
             {
                 // generate token
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userId = user.Id,
+                    token = code
+                });
+
                 // send email
 
-                return RedirectToAction("account", "login");
+                return RedirectToAction("Login", "Account");
             }
 
 
@@ -82,6 +90,13 @@ namespace ECommerce.Web.Controllers
                 return View(model);
             }
 
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", "Lütfen hesabınızı email ile onaylayınız.");
+                return View(model);
+            }
+
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
             if (result.Succeeded)
@@ -97,6 +112,31 @@ namespace ECommerce.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return Redirect("~/");
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                TempData["message"] = "Geçersiz token.";
+                return View();
+            }
+
+            
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Hesabınız onaylandı";
+                    return View();
+                }
+            }
+
+            TempData["message"] = "Hesabınız onaylanamadı.";
+            return View();
         }
     }
 }

@@ -7,12 +7,14 @@ using ECommerce.Business.Abstract;
 using ECommerce.Business.Concrete;
 using ECommerce.DataAccess.Abstract;
 using ECommerce.DataAccess.Concrete.EfCore;
+using ECommerce.Web.EMailServices;
 using ECommerce.Web.Identity;
 using ECommerce.Web.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,7 +57,7 @@ namespace ECommerce.Web
                 // options.User.AllowedUserNameCharacters = "";
                 options.User.RequireUniqueEmail = true;
 
-                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedEmail = true; // Üyelik için mail onaylamasý
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             });
 
@@ -82,6 +84,8 @@ namespace ECommerce.Web
 
             services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
+
+            services.AddTransient<IEmailSender,EMailSender>();
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
         }
