@@ -89,5 +89,11 @@ namespace ECommerce.Web.Controllers
             ModelState.AddModelError("", "Email veya parola yanlış");
             return View(model);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("~/");
+        }
     }
 }
