@@ -207,6 +207,5 @@ namespace ECommerce.Web.Controllers
             _categoryService.DeleteFromCategory(categoryId, productId);
             return Redirect("/admin/editcategory/" + categoryId);
         }
-
     }
 }
