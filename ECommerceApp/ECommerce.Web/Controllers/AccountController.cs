@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Web.Controllers
-{
+{    // Get dışındaki bütün action metotları validate edilmek zorunda
+    //[AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
@@ -25,6 +26,7 @@ namespace ECommerce.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken] //CSRF Ataklarını önler
         public async Task<IActionResult> Register(RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace ECommerce.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)

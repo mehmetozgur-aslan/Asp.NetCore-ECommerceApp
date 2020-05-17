@@ -70,7 +70,8 @@ namespace ECommerce.Web
                 options.Cookie = new CookieBuilder
                 {
                     HttpOnly = true,
-                    Name = ".ECommerceApp.Security.Cookie"
+                    Name = ".ECommerceApp.Security.Cookie",
+                    SameSite = SameSiteMode.Strict //Cross-Side Attacks
                 };
 
             });
