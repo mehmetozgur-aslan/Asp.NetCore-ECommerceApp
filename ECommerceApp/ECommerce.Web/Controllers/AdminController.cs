@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using ECommerce.Business.Abstract;
 using ECommerce.Entities;
 using ECommerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Web.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductService _productService;
@@ -87,7 +89,7 @@ namespace ECommerce.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(ProductModel model, int[] categoryIds,IFormFile file)
+        public async Task<IActionResult> EditProduct(ProductModel model, int[] categoryIds, IFormFile file)
         {
             if (ModelState.IsValid)
             {
