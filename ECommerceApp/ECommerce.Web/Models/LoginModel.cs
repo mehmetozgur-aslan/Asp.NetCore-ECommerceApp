@@ -9,7 +9,8 @@ namespace ECommerce.Web.Models
     public class LoginModel
     {
         [Required]
-        public string Username { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

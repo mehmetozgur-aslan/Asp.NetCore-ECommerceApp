@@ -69,22 +69,22 @@ namespace ECommerce.Web.Controllers
             {
                 return View(model);
             }
-            var user = await _userManager.FindByNameAsync(model.Username);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user == null)
             {
-                ModelState.AddModelError("", "Bu kullanıcı ile daha önce hesap oluşturulmamış.");
+                ModelState.AddModelError("", "Bu email adresi ile daha önce hesap oluşturulmamış.");
                 return View(model);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
             if (result.Succeeded)
             {
                 return Redirect(returnUrl);
             }
 
-            ModelState.AddModelError("", "Kullanıcı adı ve ya parola yanlış");
+            ModelState.AddModelError("", "Email veya parola yanlış");
             return View(model);
         }
     }
