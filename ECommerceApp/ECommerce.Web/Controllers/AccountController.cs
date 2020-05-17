@@ -55,16 +55,18 @@ namespace ECommerce.Web.Controllers
         }
 
 
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl = null)
         {
-            return View(new LoginModel());
+
+            return View(new LoginModel()
+            {
+                ReturnUrl = ReturnUrl
+            });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginModel model)
         {
-            returnUrl = returnUrl ?? "~/";
-
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -81,7 +83,7 @@ namespace ECommerce.Web.Controllers
 
             if (result.Succeeded)
             {
-                return Redirect(returnUrl);
+                return Redirect(model.ReturnUrl ?? "~/");
             }
 
             ModelState.AddModelError("", "Email veya parola yanlış");
