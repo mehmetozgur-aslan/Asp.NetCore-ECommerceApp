@@ -22,7 +22,7 @@ namespace ECommerce.Web.EMailServices
 
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("info@shopapp.com", "Shop App"),
+                From = new EmailAddress("info@e_commerceapp.com", "E-CommerceApp"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
