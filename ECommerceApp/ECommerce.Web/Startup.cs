@@ -38,7 +38,7 @@ namespace ECommerce.Web
         {
             services.AddDbContext<ApplicationIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
-            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationIdentityDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationIdentityDbContext>().AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -85,13 +85,13 @@ namespace ECommerce.Web
             services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
 
-            services.AddTransient<IEmailSender,EMailSender>();
+            services.AddTransient<IEmailSender, EMailSender>();
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -127,7 +127,7 @@ namespace ECommerce.Web
                   name: "products",
                   template: "products/{category?}",
                   defaults: new { controller = "Shop", action = "List" }
-                );                
+                );
 
                 routes.MapRoute(
                     name: "default",
@@ -135,6 +135,8 @@ namespace ECommerce.Web
                 );
 
             });
+
+            SeedIdentity.Seed(userManager, roleManager, Configuration).Wait();
         }
     }
 }
