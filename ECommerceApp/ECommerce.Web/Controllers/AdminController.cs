@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private IProductService _productService;
