@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Web.Extensions;
 using ECommerce.Web.Identity;
 using ECommerce.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -62,6 +63,14 @@ namespace ECommerce.Web.Controllers
                 // send email
                 await _emailSender.SendEmailAsync(model.Email, "Hesabınızı Onaylayınız.", $"Lütfen email hesabınızı onaylamak için linke <a href='http://localhost:51450{callbackUrl}'>tıklayınız.</a>");
 
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Hesap Onayı",
+                    Message = "Eposta adresinize gelen link ile hesabınızı onaylayınız.",
+                    Css = "warning"
+                });
+
+
                 return RedirectToAction("Login", "Account");
             }
 
@@ -117,6 +126,14 @@ namespace ECommerce.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Oturum kapatıldı.",
+                Message = "Güvenli bir şekilde çıkış yaptınız.",
+                Css = "warning"
+            });
+
             return Redirect("~/");
         }
 
@@ -124,11 +141,14 @@ namespace ECommerce.Web.Controllers
         {
             if (userId == null || token == null)
             {
-                TempData["message"] = "Geçersiz token.";
-                return View();
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Hesap Onayı",
+                    Message = "Hesap onayı için bilgileriniz yanlış",
+                    Css = "danger"
+                });
+                return Redirect("~/");
             }
-
-            
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
@@ -136,12 +156,22 @@ namespace ECommerce.Web.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Hesabınız onaylandı";
-                    return View();
+                    TempData.Put("message", new ResultMessage()
+                    {
+                        Title = "Hesap Onayı",
+                        Message = "Hesabınız başarıyla onaylandı.",
+                        Css = "success"
+                    });
+                    return RedirectToAction("Login");
                 }
             }
 
-            TempData["message"] = "Hesabınız onaylanamadı.";
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Hesap Onayı",
+                Message = "Hesap onaylanamadı",
+                Css = "danger"
+            });
             return View();
         }
 
@@ -155,6 +185,14 @@ namespace ECommerce.Web.Controllers
         {
             if (string.IsNullOrEmpty(Email))
             {
+
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Şifre",
+                    Message = "Bilgileriniz hatalı",
+                    Css = "danger"
+                });
+
                 return View();
             }
 
@@ -162,6 +200,13 @@ namespace ECommerce.Web.Controllers
 
             if (user == null)
             {
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Şifre",
+                    Message = "Girilen e-posta bulunamadı.",
+                    Css = "danger"
+                });
+
                 return View();
             }
 
@@ -175,6 +220,13 @@ namespace ECommerce.Web.Controllers
 
             // send email
             await _emailSender.SendEmailAsync(Email, "Reset Password", $"Parolanızı yenilemek için linke <a href='http://localhost:49884{callbackUrl}'>tıklayınız.</a>");
+
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Şifre",
+                Message = "Şifrenizi yenilemek için girdiğiniz mail adresinizi kontrol ediniz.",
+                Css = "warning"
+            });
 
             return RedirectToAction("Login", "Account");
         }
