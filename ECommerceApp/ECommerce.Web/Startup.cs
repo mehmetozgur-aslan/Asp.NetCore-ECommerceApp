@@ -127,6 +127,12 @@ namespace ECommerce.Web
                );
 
                 routes.MapRoute(
+                  name: "cart",
+                  template: "cart",
+                  defaults: new { controller = "Cart", action = "Index" }
+                );
+
+                routes.MapRoute(
                   name: "products",
                   template: "products/{category?}",
                   defaults: new { controller = "Shop", action = "List" }
