@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Business.Abstract;
+using ECommerce.Entities;
 using ECommerce.Web.Extensions;
 using ECommerce.Web.Identity;
 using ECommerce.Web.Models;
@@ -17,12 +19,14 @@ namespace ECommerce.Web.Controllers
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private IEmailSender _emailSender;
+        private ICartService _cartService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender,ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _cartService = cartService;
         }
         public IActionResult Register()
         {
@@ -156,6 +160,8 @@ namespace ECommerce.Web.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
+                    _cartService.InitializeCart(user.Id);
+
                     TempData.Put("message", new ResultMessage()
                     {
                         Title = "Hesap Onayı",

@@ -85,6 +85,9 @@ namespace ECommerce.Web
             services.AddScoped<ICategoryDal, EfCoreCategoryDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
 
+            services.AddScoped<ICartDal, EfCoreCartDal>();
+            services.AddScoped<ICartService, CartManager>();
+
             services.AddTransient<IEmailSender, EMailSender>();
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
