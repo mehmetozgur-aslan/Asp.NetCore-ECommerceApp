@@ -54,7 +54,7 @@ namespace ECommerce.DataAccess.Concrete.EfCore
             }
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             using (TContext context = new TContext())
             {
