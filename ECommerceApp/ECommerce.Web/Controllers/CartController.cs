@@ -49,5 +49,12 @@ namespace ECommerce.Web.Controllers
             _cartService.AddToCart(_userManager.GetUserId(User), productId, quantity);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult DeleteFromCart(int productId)
+        {
+            _cartService.DeleteFromCart(_userManager.GetUserId(User), productId);
+            return RedirectToAction("Index");
+        }
     }
 }
