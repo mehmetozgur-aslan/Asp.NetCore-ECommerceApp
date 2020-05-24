@@ -20,5 +20,10 @@ namespace ECommerce.Business.Concrete
         {
             _orderDal.Create(order);
         }
+
+        public List<Order> GetOrders(string userId)
+        {
+            return _orderDal.GetOrders(userId);
+        }
     }
 }

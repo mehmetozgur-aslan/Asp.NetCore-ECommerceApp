@@ -5,8 +5,9 @@ using System.Text;
 
 namespace ECommerce.Business.Abstract
 {
-   public interface IOrderService
+    public interface IOrderService
     {
         void Create(Order order);
+        List<Order> GetOrders(string userId);
     }
 }
