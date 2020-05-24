@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ECommerce.DataAccess.Concrete.EfCore
 {
-    public class EfCoreOrdelDal : EfCoreGenericRepository<Order, ECommerceContext>, IOrderDal
+    public class EfCoreOrderDal : EfCoreGenericRepository<Order, ECommerceContext>, IOrderDal
     {
     }
 }

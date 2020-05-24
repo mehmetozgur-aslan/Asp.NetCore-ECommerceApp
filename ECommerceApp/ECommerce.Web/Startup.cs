@@ -57,7 +57,7 @@ namespace ECommerce.Web
                 // options.User.AllowedUserNameCharacters = "";
                 options.User.RequireUniqueEmail = true;
 
-                options.SignIn.RequireConfirmedEmail = true; // Üyelik için mail onaylamasý
+                options.SignIn.RequireConfirmedEmail = false; // Üyelik için mail onaylamasý
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             });
 
@@ -72,12 +72,10 @@ namespace ECommerce.Web
                 options.Cookie = new CookieBuilder
                 {
                     HttpOnly = true,
-                    Name = ".ECommerceApp.Security.Cookie",
+                    Name = "ECommerceApp.Security.Cookie",
                     SameSite = SameSiteMode.Strict //Cross-Side Attacks
                 };
-
             });
-
 
             services.AddScoped<IProductDal, EfCoreProductDal>();
             services.AddScoped<IProductService, ProductManager>();
@@ -87,6 +85,9 @@ namespace ECommerce.Web
 
             services.AddScoped<ICartDal, EfCoreCartDal>();
             services.AddScoped<ICartService, CartManager>();
+
+            services.AddScoped<IOrderDal, EfCoreOrderDal>();
+            services.AddScoped<IOrderService, OrderManager>();
 
             services.AddTransient<IEmailSender, EMailSender>();
 

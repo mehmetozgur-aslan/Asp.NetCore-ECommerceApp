@@ -10,7 +10,7 @@ namespace ECommerce.Web.EMailServices
 {
     public class EMailSender : IEmailSender
     {
-        private const string SendGridKey = "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";
+        private const string SendGridKey = "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";
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             return Execute(SendGridKey, subject, htmlMessage, email);
@@ -22,7 +22,7 @@ namespace ECommerce.Web.EMailServices
 
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("info@e_commerceapp.com", "E-CommerceApp"),
+                From = new EmailAddress("info@freecommerceapp.com", "ECommerceApp"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

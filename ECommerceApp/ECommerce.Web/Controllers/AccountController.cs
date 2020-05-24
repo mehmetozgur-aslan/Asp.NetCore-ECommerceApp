@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Business.Abstract;
-using ECommerce.Entities;
+﻿using ECommerce.Business.Abstract;
 using ECommerce.Web.Extensions;
 using ECommerce.Web.Identity;
 using ECommerce.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ECommerce.Web.Controllers
 {    // Get dışındaki bütün action metotları validate edilmek zorunda
@@ -21,7 +17,7 @@ namespace ECommerce.Web.Controllers
         private IEmailSender _emailSender;
         private ICartService _cartService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender,ICartService cartService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -225,7 +221,7 @@ namespace ECommerce.Web.Controllers
             });
 
             // send email
-            await _emailSender.SendEmailAsync(Email, "Reset Password", $"Parolanızı yenilemek için linke <a href='http://localhost:49884{callbackUrl}'>tıklayınız.</a>");
+            await _emailSender.SendEmailAsync(Email, "Reset Password", $"Parolanızı yenilemek için linke <a href='http://localhost:51450{callbackUrl}'>tıklayınız.</a>");
 
             TempData.Put("message", new ResultMessage()
             {

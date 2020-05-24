@@ -10,6 +10,15 @@ namespace ECommerce.DataAccess.Concrete.EfCore
 {
     public class EfCoreCartDal : EfCoreGenericRepository<Cart, ECommerceContext>, ICartDal
     {
+        public void ClearCart(int cartId)
+        {
+            using (var context = new ECommerceContext())
+            {
+                var cmd = @"delete from CartItem where CartId=@p0";
+                context.Database.ExecuteSqlRaw(cmd, cartId);
+            }
+        }
+
         public void DeleteFromCart(int cartId, int productId)
         {
             using (var context = new ECommerceContext())

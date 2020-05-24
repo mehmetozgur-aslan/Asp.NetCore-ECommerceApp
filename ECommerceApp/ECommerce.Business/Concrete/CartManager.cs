@@ -40,6 +40,11 @@ namespace ECommerce.Business.Concrete
             }
         }
 
+        public void ClearCart(int cartId)
+        {
+            
+        }
+
         public void DeleteFromCart(string userId, int productId)
         {
             var cart = GetCartByUserId(userId);
